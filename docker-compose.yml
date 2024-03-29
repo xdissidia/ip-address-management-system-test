@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+
+  # API
+  app:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: IPAMS-API
+    volumes:
+      - ./api:/var/www/html
+    ports:
+      - "8080:80"
+    environment:
+      - API_PUBLIC_PATH=/var/www/html/public
+      - API_LOG_PATH=/var/www/html/storage/logs
+    depends_on:
+      - mysql
+    networks:
+      - ipams-network
+
+  # DATABASE
+  mysql:
+    image: mariadb:10.6
+    container_name: IPAMS-DB
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password_db
+      MYSQL_ROOT_PASSWORD: password_db
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - ipams-network
+
+  # FRONTEND
+  nextjs:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: IPAMS-FE
+    ports:
+      - "3030:3000"
+    networks:
+      - ipams-network
+
+networks:
+  ipams-network:
