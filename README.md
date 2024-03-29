@@ -16,7 +16,7 @@ Follow these steps to set up the environment:
     ```
     docker-compose up -d
     ```
-5. Access IPAMS at `http://localhost:3000`.
+5. Access IPAMS at `http://localhost:3030`.
     ```
     user: admin
     pass: admin
