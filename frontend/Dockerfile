@@ -1,15 +1,13 @@
 FROM node:20-alpine 
 
-RUN mkdir -p /app
+RUN mkdir -p /frontend
 
-WORKDIR /app
+WORKDIR /frontend
 
 COPY package*.json ./
 
 RUN npm install
 
 COPY . .
-
-EXPOSE 8080
 
 CMD npm run dev

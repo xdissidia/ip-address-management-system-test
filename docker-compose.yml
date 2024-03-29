@@ -44,6 +44,12 @@ services:
     container_name: IPAMS-FE
     ports:
       - "3030:3000"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./frontend:/frontend
     networks:
       - ipams-network
 
