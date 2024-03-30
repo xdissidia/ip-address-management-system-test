@@ -17,13 +17,15 @@ const isLoggedIn = true;
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <div className="main">
-                <div className="gradient" />
-            </div>
-            <main className={isLoggedIn ? "app" : "app min-h-screen"} >
-                {isLoggedIn && <Nav />}
-                {children}
-            </main>
+            <body>
+                <div className="main">
+                    <div className="gradient" />
+                </div>
+                <main className={isLoggedIn ? "app" : "app min-h-screen"} >
+                    {isLoggedIn && <Nav />}
+                    {children}
+                </main>
+            </body >
         </html>
     );
 }
