@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\v1\AuditTrailController;
 use App\Http\Controllers\api\v1\IpAddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,9 +21,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+
     Route::group(['prefix' => 'v1'], function () {
+
+        // IP ADDRESS
         Route::get('ip-addresses', [IpAddressController::class, 'index']);
         Route::post('ip-addresses', [IpAddressController::class, 'store']);
         Route::patch('ip-addresses/{ip_address}', [IpAddressController::class, 'update']);
+
+        // AUDIT TRAIL
+        Route::get('audit-trails', [AuditTrailController::class, 'index']);
     });
 });

@@ -17,6 +17,10 @@ class AuditTrailController extends Controller
     public function index()
     {
         //
+
+        return response([
+            'data' => AuditTrail::with('user:id,name')->get(),
+        ]);
     }
 
     /**
