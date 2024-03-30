@@ -1,8 +1,37 @@
-import React from 'react'
+'use client'
+
+import React, { useContext, useEffect, useState } from 'react'
 import UpdateLabelButton from './UpdateLabelButton'
 import CreateIPAddressButton from './CreateIPAddressButton'
+import { UserContext } from '@app/lib/context'
+import createAxios from '@app/lib/axios'
 
 const IpAddressTable = () => {
+
+    const userContext = useContext(UserContext);
+    const axios = createAxios(userContext ? userContext.authToken : '');
+    const [ipAddresses, setIpAddresses] = useState([]);
+
+    useEffect(() => {
+        fetchIpAddresses()
+    }, []);
+
+    function fetchIpAddresses() {
+        axios.get('/api/v1/ip-addresses')
+            .then(res => {
+                if (res.data) {
+                    console.log(res.data.data);
+                    setIpAddresses(res.data.data)
+                }
+            })
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+
+                setErrors(error.response.data.errors)
+            })
+    }
+
+
     return (
         <section className='w-full'>
 
@@ -23,17 +52,20 @@ const IpAddressTable = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        className="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Mark</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Otto</td>
-                                        <td className="whitespace-nowrap px-6 py-4">
-                                            <UpdateLabelButton
-                                                title='Update Label'
-                                            />
-                                        </td>
-                                    </tr>
+                                    {ipAddresses && ipAddresses.map((item, i) => (
+
+                                        <tr key={i}
+                                            className="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+                                            <td className="whitespace-nowrap px-6 py-4 font-medium">{item.id}</td>
+                                            <td className="whitespace-nowrap px-6 py-4">{item.ip_address}</td>
+                                            <td className="whitespace-nowrap px-6 py-4">{item.label}</td>
+                                            <td className="whitespace-nowrap px-6 py-4">
+                                                <UpdateLabelButton
+                                                    title='Update Label'
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
                                     <tr
                                         className="border-b bg-white dark:border-neutral-500 dark:bg-neutral-600">
                                         <td className="whitespace-nowrap px-6 py-4 font-medium">2</td>
