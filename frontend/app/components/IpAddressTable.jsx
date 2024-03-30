@@ -1,5 +1,5 @@
 import React from 'react'
-import LabelUpdateButton from './LabelUpdateButton'
+import UpdateLabelButton from './UpdateLabelButton'
 
 const IpAddressTable = () => {
     return (
@@ -25,7 +25,7 @@ const IpAddressTable = () => {
                                         <td className="whitespace-nowrap px-6 py-4">Mark</td>
                                         <td className="whitespace-nowrap px-6 py-4">Otto</td>
                                         <td className="whitespace-nowrap px-6 py-4">
-                                            <LabelUpdateButton
+                                            <UpdateLabelButton
                                                 title='Update Label'
                                             />
                                         </td>
@@ -36,7 +36,7 @@ const IpAddressTable = () => {
                                         <td className="whitespace-nowrap px-6 py-4">Jacob</td>
                                         <td className="whitespace-nowrap px-6 py-4">Thornton</td>
                                         <td className="whitespace-nowrap px-6 py-4">
-                                            <LabelUpdateButton
+                                            <UpdateLabelButton
                                                 title='Update Label'
                                             />
                                         </td>
