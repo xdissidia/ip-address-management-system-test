@@ -14,4 +14,10 @@ class IpAddress extends Model
         'ip_address',
         'label',
     ];
+
+    public function trails()
+    {
+
+        return $this->hasMany(AuditTrail::class);
+    }
 }

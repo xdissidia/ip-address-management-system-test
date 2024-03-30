@@ -13,7 +13,7 @@ class UpdateIpAddressRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,9 @@ class UpdateIpAddressRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            //
+            'label' => 'required|string',
         ];
     }
 }

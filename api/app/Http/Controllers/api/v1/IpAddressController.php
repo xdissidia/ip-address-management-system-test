@@ -44,6 +44,11 @@ class IpAddressController extends Controller
         try {
 
             $ip_address = IpAddress::create($request->all(['ip_address', 'label']));
+            $ip_address->trails()->create([
+                'ip_address' => $request->getClientIp(),
+                'action' => 'INSERT',
+                'description' => collect($request->all(['ip_address', 'label']))->toJson(),
+            ])->user()->associate($request->user())->save();
         } catch (\Throwable $th) {
 
             return response([
@@ -86,9 +91,28 @@ class IpAddressController extends Controller
      * @param  \App\Models\IpAddress  $ipAddress
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateIpAddressRequest $request, IpAddress $ipAddress)
+    public function update(UpdateIpAddressRequest $request, IpAddress $ip_address)
     {
-        //
+
+        try {
+
+            $ip_address->update($request->all(['label']));
+            $ip_address->trails()->create([
+                'ip_address' => $request->getClientIp(),
+                'action' => 'UPDATE',
+                'description' => collect($request->all(['label']))->toJson(),
+            ])->user()->associate($request->user())->save();
+        } catch (\Throwable $th) {
+
+            return response([
+                'success' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+
+        return response([
+            'data' => $ip_address,
+        ]);
     }
 
     /**

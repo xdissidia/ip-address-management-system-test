@@ -23,5 +23,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'v1'], function () {
         Route::get('ip-addresses', [IpAddressController::class, 'index']);
         Route::post('ip-addresses', [IpAddressController::class, 'store']);
+        Route::patch('ip-addresses/{ip_address}', [IpAddressController::class, 'update']);
     });
 });
