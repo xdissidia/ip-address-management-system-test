@@ -43,7 +43,7 @@ services:
       dockerfile: Dockerfile
     container_name: IPAMS-FE
     ports:
-      - "3030:3000"
+      - "3000:3000"
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true

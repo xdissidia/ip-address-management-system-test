@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\UserLoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/login', [UserLoginController::class, 'store'])
+    ->name('login');
+
+Route::post('/logout', [UserLoginController::class, 'destroy'])
+    ->middleware('auth:sanctum')
+    ->name('logout');
