@@ -62,21 +62,11 @@ const IpAddressTable = () => {
                                             <td className="whitespace-nowrap px-6 py-4">
                                                 <UpdateLabelButton
                                                     title='Update Label'
+                                                    item={item}
                                                 />
                                             </td>
                                         </tr>
                                     ))}
-                                    <tr
-                                        className="border-b bg-white dark:border-neutral-500 dark:bg-neutral-600">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">2</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Jacob</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Thornton</td>
-                                        <td className="whitespace-nowrap px-6 py-4">
-                                            <UpdateLabelButton
-                                                title='Update Label'
-                                            />
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>

@@ -6,12 +6,13 @@ import MaskedInput from "react-text-mask";
 import { UserContext } from "@app/lib/context";
 import createAxios from "@app/lib/axios";
 
-export default function UpdateLabelForm({ disabled = false }) {
+export default function UpdateLabelForm({ item }) {
 
     const userContext = useContext(UserContext);
     const axios = createAxios(userContext ? userContext.authToken : '');
     const csrf = () => axios.get('/sanctum/csrf-cookie');
     const [label, setLabel] = useState('');
+    
     const [errors, setErrors] = useState({});
     const [status, setStatus] = useState(null);
 
@@ -25,12 +26,12 @@ export default function UpdateLabelForm({ disabled = false }) {
         setStatus(null);
 
         axios
-            .patch('/api/v1/ip-addresses/2', {
+            .patch(`/api/v1/ip-addresses/${item.id}`, {
                 label,
             })
             .then(res => {
                 if (res.data) {
-                    console.log(res.data)
+                    
                 }
             })
             .catch(error => {
@@ -50,6 +51,7 @@ export default function UpdateLabelForm({ disabled = false }) {
                         type="text"
                         label="IP Address"
                         className="mb-6"
+                        defaultValue={item.ip_address}
                         readOnly
                     />
                     <div className="relative mb-6">
@@ -57,6 +59,7 @@ export default function UpdateLabelForm({ disabled = false }) {
                             id="exampleFormControlTextarea13"
                             label="Label"
                             rows={3}
+                            defaultValue={item.label}
                             onChange={event => setLabel(event.target.value)}
                         />
                     </div>

@@ -111,7 +111,7 @@ class IpAddressController extends Controller
         }
 
         return response([
-            'data' => $ip_address,
+            'data' => IpAddress::all(),
         ]);
     }
 
