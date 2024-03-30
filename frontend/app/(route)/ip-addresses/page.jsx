@@ -1,9 +1,10 @@
+import IpAddressTable from '@app/components/IpAddressTable'
 import React from 'react'
 
 const page = () => {
-  return (
-    <div>IP Addresses</div>
-  )
+    return (
+        <IpAddressTable />
+    )
 }
 
 export default page

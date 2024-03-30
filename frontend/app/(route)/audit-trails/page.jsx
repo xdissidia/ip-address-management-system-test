@@ -1,9 +1,10 @@
+import AuditTrailTable from '@app/components/AuditTrailTable'
 import React from 'react'
 
 const page = () => {
-  return (
-    <div>Audit Trails</div>
-  )
+    return (
+        <AuditTrailTable />
+    )
 }
 
 export default page
