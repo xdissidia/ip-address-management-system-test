@@ -99,13 +99,10 @@ export default function IpAddressForm({ disabled = false }) {
             })
             .then(res => {
                 if (res.data) {
-                    console.log(res.data)
                 }
             })
             .catch(error => {
-                console.log(error)
                 if (error.response.status !== 422) throw error
-
                 setErrors(error.response.data.errors)
             })
 

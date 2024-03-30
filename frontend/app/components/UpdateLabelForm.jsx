@@ -12,16 +12,13 @@ export default function UpdateLabelForm({ item }) {
     const axios = createAxios(userContext ? userContext.authToken : '');
     const csrf = () => axios.get('/sanctum/csrf-cookie');
     const [label, setLabel] = useState('');
-    
     const [errors, setErrors] = useState({});
     const [status, setStatus] = useState(null);
 
     const submitForm = async (event) => {
 
         event.preventDefault();
-
         await csrf();
-
         setErrors({});
         setStatus(null);
 
@@ -31,13 +28,11 @@ export default function UpdateLabelForm({ item }) {
             })
             .then(res => {
                 if (res.data) {
-                    
+
                 }
             })
             .catch(error => {
-                console.log(error)
                 if (error.response.status !== 422) throw error
-
                 setErrors(error.response.data.errors)
             })
 

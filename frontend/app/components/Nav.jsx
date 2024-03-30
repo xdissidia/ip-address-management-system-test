@@ -12,13 +12,8 @@ const Nav = () => {
 
     const userContext = useContext(UserContext);
     const axios = createAxios(userContext ? userContext.authToken : '');
-
     const isLoggedIn = true;
-
-    console.log(userContext.user)
-
     const router = useRouter();
-
     const logout = async () => {
         await axios
             .post('/logout')
@@ -33,9 +28,7 @@ const Nav = () => {
                 throw error;
             });
         window.location.pathname = '/';
-
     };
-
 
     return (
         <>
