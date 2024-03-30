@@ -12,7 +12,7 @@ import {
 } from "tw-elements-react";
 import UpdateLabelForm from "./UpdateLabelForm";
 
-export default function LabelUpdateButton({ type = "button", className = "", title = "", ...props }) {
+export default function UpdateLabelButton({ type = "button", className = "", title = "", ...props }) {
 
     const [showModal, setShowModal] = useState(false);
 

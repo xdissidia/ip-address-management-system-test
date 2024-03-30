@@ -18,6 +18,7 @@ const AuditTrailTable = () => {
         axios.get('/api/v1/audit-trails')
             .then(res => {
                 if (res.data) {
+                   
                     setAuditTrails(res.data.data)
                 }
             })
@@ -39,7 +40,7 @@ const AuditTrailTable = () => {
                                 <thead
                                     className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
                                     <tr>
-                                        <th scope="col" className="px-6 py-4">#</th>
+                                        <th scope="col" className="px-6 py-4">Date</th>
                                         <th scope="col" className="px-6 py-4">IP Address</th>
                                         <th scope="col" className="px-6 py-4">Username</th>
                                         <th scope="col" className="px-6 py-4">Action</th>
@@ -50,15 +51,11 @@ const AuditTrailTable = () => {
                                     {auditTrails && auditTrails.map((item, i) => (
                                         <tr key={i}
                                             className="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                            <td className="whitespace-nowrap px-6 py-4 font-medium">{item.id}</td>
+                                            <td className="whitespace-nowrap px-6 py-4 font-medium">{item.created_at}</td>
                                             <td className="whitespace-nowrap px-6 py-4">{item.ip_address}</td>
-                                            <td className="whitespace-nowrap px-6 py-4">{item.user_id}</td>
+                                            <td className="whitespace-nowrap px-6 py-4">{item.user ? item.user.name : null}</td>
                                             <td className="whitespace-nowrap px-6 py-4">{item.action}</td>
-                                            <td className="whitespace-nowrap px-6 py-4">
-                                                <UpdateLabelButton
-                                                    title='Update Label'
-                                                />
-                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4">{item.description}</td>
                                         </tr>
                                     ))}
                                 </tbody>
