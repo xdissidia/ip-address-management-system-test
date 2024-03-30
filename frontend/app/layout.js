@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 
 import "@styles/globals.css";
 import Nav from "./components/Nav";
+import UserContextPage from "./components/UserContextPage";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ weight: "400", subsets: ["latin"] });
@@ -15,17 +16,20 @@ export const metadata = {
 const isLoggedIn = true;
 
 export default function RootLayout({ children }) {
+    
     return (
         <html lang="en">
-            <body>
-                <div className="main">
-                    <div className="gradient" />
-                </div>
-                <main className={isLoggedIn ? "app" : "app min-h-screen"} >
-                    {isLoggedIn && <Nav />}
-                    {children}
-                </main>
-            </body >
+            <UserContextPage>
+                <body>
+                    <div className="main">
+                        <div className="gradient" />
+                    </div>
+                    <main className={isLoggedIn ? "app" : "app min-h-screen"} >
+                        {isLoggedIn && <Nav />}
+                        {children}
+                    </main>
+                </body >
+            </UserContextPage>
         </html>
     );
 }

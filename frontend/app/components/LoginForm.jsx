@@ -1,25 +1,59 @@
 'use client'
 
-import { useState } from 'react'
+import createAxios from '@app/lib/axios';
+import { UserContext } from '@app/lib/context';
+import { encryptSessionData } from '@app/lib/cryptosession';
+import useRedirectIfAuthenticated from '@app/lib/useRedirectIfAuthenticated';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect, useState } from 'react'
 import { TEInput, TERipple } from 'tw-elements-react'
+import InputError from './InputError';
 
 const LoginForm = () => {
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [errors, setErrors] = useState([])
+    const userContext = useContext(UserContext);
+    const router = useRouter();
+    const axios = createAxios(userContext ? userContext.authToken : '');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [shouldRemember, setShouldRemember] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [status, setStatus] = useState(null);
+    const csrf = () => axios.get('/sanctum/csrf-cookie');
 
-    const submitForm = async event => {
-        event.preventDefault()
-        login({
-            email,
-            password,
-            setErrors,
-        })
+    useRedirectIfAuthenticated(userContext.user.id, userContext.authToken, '/ip-addresses');
+
+    const submitForm = async (event) => {
+        event.preventDefault();
+
+        await csrf();
+
+        setErrors({});
+        setStatus(null);
+
+        axios
+            .post('/login', {
+                email,
+                password,
+                remember: shouldRemember,
+            })
+            .then(res => {
+                if (res.data) {
+                    encryptSessionData('user_data', res.data);
+                    userContext.userlLogin(res.data);
+                    router.push('/ip-addresses')
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                if (error.response.status !== 422) throw error
+
+                setErrors(error.response.data.errors)
+            })
     }
 
     return (
-        <section className="h-full ">
+        <section className="h-full">
             <div className="container h-full p-10">
                 <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
                     <div className="w-full">
@@ -42,6 +76,7 @@ const LoginForm = () => {
 
                                         <form onSubmit={submitForm}>
                                             <p className="mb-4">Please login to your account</p>
+											<InputError messages={errors.email} className="mt-2" />
                                             {/* <!--Username input--> */}
                                             <TEInput
                                                 id="email"
@@ -62,6 +97,7 @@ const LoginForm = () => {
                                                 required
                                                 autoComplete="current-password"
                                             ></TEInput>
+                                            
                                             {/* <!--Submit button--> */}
                                             <div className="mb-12 pb-1 pt-1 text-center">
                                                 <TERipple rippleColor="light" className="w-full">
