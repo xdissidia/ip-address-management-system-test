@@ -1,6 +1,34 @@
-import React from 'react'
+'use client'
+
+import createAxios from '@app/lib/axios';
+import { UserContext } from '@app/lib/context';
+import React, { useContext, useEffect, useState } from 'react'
 
 const AuditTrailTable = () => {
+
+    const userContext = useContext(UserContext);
+    const axios = createAxios(userContext ? userContext.authToken : '');
+    const [auditTrails, setAuditTrails] = useState([]);
+
+    useEffect(() => {
+        fetchAuditTrails()
+    }, []);
+
+    function fetchAuditTrails() {
+        axios.get('/api/v1/audit-trails')
+            .then(res => {
+                if (res.data) {
+                    setAuditTrails(res.data.data)
+                }
+            })
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+
+                setErrors(error.response.data.errors)
+            })
+    }
+
+
     return (
         <section className='w-full'>
             <div className="flex flex-col">
@@ -19,22 +47,20 @@ const AuditTrailTable = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        className="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Mark</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Otto</td>
-                                        <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-                                        <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-                                    </tr>
-                                    <tr
-                                        className="border-b bg-white dark:border-neutral-500 dark:bg-neutral-600">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">2</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Jacob</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Thornton</td>
-                                        <td className="whitespace-nowrap px-6 py-4">@fat</td>
-                                        <td className="whitespace-nowrap px-6 py-4">@fat</td>
-                                    </tr>
+                                    {auditTrails && auditTrails.map((item, i) => (
+                                        <tr key={i}
+                                            className="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+                                            <td className="whitespace-nowrap px-6 py-4 font-medium">{item.id}</td>
+                                            <td className="whitespace-nowrap px-6 py-4">{item.ip_address}</td>
+                                            <td className="whitespace-nowrap px-6 py-4">{item.user_id}</td>
+                                            <td className="whitespace-nowrap px-6 py-4">{item.action}</td>
+                                            <td className="whitespace-nowrap px-6 py-4">
+                                                <UpdateLabelButton
+                                                    title='Update Label'
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
