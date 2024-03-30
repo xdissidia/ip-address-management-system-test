@@ -12,7 +12,7 @@ export const metadata = {
     description: "IP Address Management Information System",
 };
 
-const isLoggedIn = false;
+const isLoggedIn = true;
 
 export default function RootLayout({ children }) {
     return (
