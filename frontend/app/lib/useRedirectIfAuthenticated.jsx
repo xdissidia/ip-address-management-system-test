@@ -8,6 +8,8 @@ export default function useRedirectIfAuthenticated(userID, authToken, redirectIf
     useEffect(() => {
         if (userID && authToken) {
             router.push(redirectIfAuthenticated);
+        }else{
+            router.push('/')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userID, authToken, redirectIfAuthenticated]);
