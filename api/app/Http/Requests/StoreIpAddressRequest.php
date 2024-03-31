@@ -33,7 +33,7 @@ class StoreIpAddressRequest extends FormRequest
     {
 
         return [
-            'ip_address' => 'required|ip',
+            'ip_address' => "required|ip|unique:ip_addresses,ip_address",
             'label' => 'required|string',
         ];
     }
