@@ -26,6 +26,9 @@ Follow these steps to set up the environment:
     pass: test
     ```
 
+## API Testing (Postman)
+
+Import IPAMS.postman_collection.json to Postman
 
 ## Features
 
