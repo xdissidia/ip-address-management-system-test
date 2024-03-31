@@ -1,6 +1,6 @@
 # IP Address Management System (TEST)
 
-Author: John Ryan E. Fructuoso
+Author: Jay Fructuoso
 
 ## Getting Started
 
