@@ -1,5 +1,7 @@
 # IP Address Management System (TEST)
 
+Author: John Ryan E. Fructuoso
+
 ## Getting Started
 
 Follow these steps to set up the environment:
