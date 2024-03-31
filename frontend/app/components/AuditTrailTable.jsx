@@ -14,11 +14,10 @@ const AuditTrailTable = () => {
         fetchAuditTrails()
     }, []);
 
-    function fetchAuditTrails() {
+    const fetchAuditTrails = async (event) => {
         axios.get('/api/v1/audit-trails')
             .then(res => {
                 if (res.data) {
-                   
                     setAuditTrails(res.data.data)
                 }
             })

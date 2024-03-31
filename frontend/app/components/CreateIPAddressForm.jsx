@@ -15,21 +15,23 @@ import {
     TEModalFooter,
     TETextarea
 } from "tw-elements-react";
+import InputError from "./InputError";
 
-export default function IpAddressForm({ disabled = false }) {
+export default function IpAddressForm(props) {
 
     const userContext = useContext(UserContext);
     const axios = createAxios(userContext ? userContext.authToken : '');
     const csrf = () => axios.get('/sanctum/csrf-cookie');
 
-    const [isDisabled, setIsDisabled] = useState(disabled);
+    // const [isDisabled, setIsDisabled] = useState(disabled);
+
+    // const [errors, setErrors] = useState({});
+    const [status, setStatus] = useState(null);
 
     const [ip_address, setIpAddress] = useState('');
     const [label, setLabel] = useState('');
-    const [errors, setErrors] = useState({});
-    const [status, setStatus] = useState(null);
 
-    const props = {
+    const propss = {
         guide: true,
         mask: value => {
             let result = [];
@@ -89,7 +91,7 @@ export default function IpAddressForm({ disabled = false }) {
 
         await csrf();
 
-        setErrors({});
+        props.setErrors({});
         setStatus(null);
 
         axios
@@ -99,11 +101,16 @@ export default function IpAddressForm({ disabled = false }) {
             })
             .then(res => {
                 if (res.data) {
+                    props.fetchIpAddresses();
+                    props.setShowModal(false);
+                    props.setIpAddress("")
+                    props.setLabel("")
+
                 }
             })
             .catch(error => {
                 if (error.response.status !== 422) throw error
-                setErrors(error.response.data.errors)
+                props.setErrors(error.response.data.errors)
             })
 
     }
@@ -111,20 +118,34 @@ export default function IpAddressForm({ disabled = false }) {
         <section>
             <form onSubmit={submitForm}>
                 <div>
+
+                    <InputError messages={props.errors.ip_address} className="mt-2" />
                     <MaskedInput
+                        id="input_ip"
                         aria-label="IP Address"
                         placeholder="IP Address"
                         className="ip-input-border peer block min-h-[auto] w-full rounded transition-all duration-200 ease-linear read-only:bg-neutral-100 dark:disabled:bg-neutral-700 dark:read-only:bg-neutral-700 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary px-3 py-[0.32rem] leading-[1.6] text-neutral-800 dark:text-neutral-200 mb-6"
-                        onChange={event => setIpAddress(event.target.value)}
-                        {...props}
+                        onChange={event => {
+                            props.setIpAddress(event.target.value)
+                            setIpAddress(event.target.value)
+                        }}
+                        value={props.ip_address}
+                        {...propss}
                     />
+
                 </div>
                 <div className="relative mb-6">
+
+                    <InputError messages={props.errors.label} className="mt-2" />
                     <TETextarea
-                        id="exampleFormControlTextarea13"
+                        id="input_label"
                         label="Label"
                         rows={3}
-                        onChange={event => setLabel(event.target.value)}
+                        onChange={event => {
+                            props.setLabel(event.target.value)
+                            setLabel(event.target.value)
+                        }}
+                        value={props.label}
                     />
                 </div>
                 <TERipple rippleColor="light">

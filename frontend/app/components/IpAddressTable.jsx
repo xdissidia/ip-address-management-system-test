@@ -16,7 +16,9 @@ const IpAddressTable = () => {
         fetchIpAddresses()
     }, []);
 
-    function fetchIpAddresses() {
+
+    const fetchIpAddresses = async (event) => {
+
         axios.get('/api/v1/ip-addresses')
             .then(res => {
                 if (res.data) {
@@ -26,16 +28,17 @@ const IpAddressTable = () => {
             })
             .catch(error => {
                 if (error.response.status !== 422) throw error
-
                 setErrors(error.response.data.errors)
             })
     }
 
-
     return (
         <section className='w-full'>
 
-            <CreateIPAddressButton />
+            <CreateIPAddressButton
+                fetchIpAddresses={fetchIpAddresses}
+            />
+            
             <br />
             <div className="flex flex-col">
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -63,6 +66,7 @@ const IpAddressTable = () => {
                                                 <UpdateLabelButton
                                                     title='Update Label'
                                                     item={item}
+                                                    fetchIpAddresses={fetchIpAddresses}
                                                 />
                                             </td>
                                         </tr>

@@ -5,14 +5,13 @@ import { TEInput, TERipple, TETextarea, TEModalBody } from "tw-elements-react";
 import MaskedInput from "react-text-mask";
 import { UserContext } from "@app/lib/context";
 import createAxios from "@app/lib/axios";
+import InputError from "./InputError";
 
-export default function UpdateLabelForm({ item }) {
+export default function UpdateLabelForm({ item, fetchIpAddresses, setShowModal, label, setLabel, errors,setErrors }) {
 
     const userContext = useContext(UserContext);
     const axios = createAxios(userContext ? userContext.authToken : '');
     const csrf = () => axios.get('/sanctum/csrf-cookie');
-    const [label, setLabel] = useState('');
-    const [errors, setErrors] = useState({});
     const [status, setStatus] = useState(null);
 
     const submitForm = async (event) => {
@@ -28,7 +27,8 @@ export default function UpdateLabelForm({ item }) {
             })
             .then(res => {
                 if (res.data) {
-
+                    fetchIpAddresses()
+                    setShowModal(false)
                 }
             })
             .catch(error => {
@@ -50,11 +50,13 @@ export default function UpdateLabelForm({ item }) {
                         readOnly
                     />
                     <div className="relative mb-6">
+
+                        <InputError messages={errors.label} className="mt-2" />
                         <TETextarea
                             id="exampleFormControlTextarea13"
                             label="Label"
                             rows={3}
-                            defaultValue={item.label}
+                            value={label}
                             onChange={event => setLabel(event.target.value)}
                         />
                     </div>

@@ -16,6 +16,14 @@ class StoreIpAddressRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+
+        $this->merge([
+            'ip_address' => str_replace("_", "", $this->ip_address),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,6 +31,7 @@ class StoreIpAddressRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'ip_address' => 'required|ip',
             'label' => 'required|string',

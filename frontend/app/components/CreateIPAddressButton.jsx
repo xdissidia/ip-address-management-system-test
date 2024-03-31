@@ -12,9 +12,19 @@ import {
 } from "tw-elements-react";
 import CreateIPAddressForm from "./CreateIPAddressForm";
 
-export default function CreateIPAddressButton() {
+export default function CreateIPAddressButton({ fetchIpAddresses }) {
 
     const [showModal, setShowModal] = useState(false);
+    const [ip_address, setIpAddress] = useState('');
+    const [label, setLabel] = useState('');
+    const [errors, setErrors] = useState({});
+
+    function initModal() {
+        setErrors({});
+        setIpAddress("")
+        setLabel("")
+        setShowModal(true);
+    }
 
     return (
         <div>
@@ -23,7 +33,7 @@ export default function CreateIPAddressButton() {
                 <button
                     type="button"
                     className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    onClick={() => setShowModal(true)}
+                    onClick={initModal}
                 >
                     Add New IP Address
                 </button>
@@ -64,7 +74,16 @@ export default function CreateIPAddressButton() {
                         {/* <!--Modal body--> */}
 
                         <TEModalBody>
-                            <CreateIPAddressForm />
+                            <CreateIPAddressForm
+                                fetchIpAddresses={fetchIpAddresses}
+                                setShowModal={setShowModal}
+                                ip_address={ip_address}
+                                setIpAddress={setIpAddress}
+                                label={label}
+                                setLabel={setLabel}
+                                errors={errors}
+                                setErrors={setErrors}
+                            />
 
                         </TEModalBody>
                     </TEModalContent>
