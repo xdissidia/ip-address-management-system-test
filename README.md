@@ -16,11 +16,16 @@ Follow these steps to set up the environment:
     ```
     docker-compose up -d
     ```
-5. Access IPAMS at `http://localhost:3030`.
+4. Initilialize Database:
     ```
-    user: admin
-    pass: admin
+    docker exec IPAMS-API sh ./storage/config/initDB.sh
     ```
+5. Access IPAMS at `http://localhost:3000`.
+    ```
+    user: test@test.test
+    pass: test
+    ```
+
 
 ## Features
 

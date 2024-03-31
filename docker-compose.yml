@@ -38,7 +38,7 @@ services:
 
   # FRONTEND
   nextjs:
-    build: 
+    build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: IPAMS-FE
