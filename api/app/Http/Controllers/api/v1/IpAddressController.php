@@ -100,7 +100,7 @@ class IpAddressController extends Controller
             $ip_address->trails()->create([
                 'ip_address' => $request->getClientIp(),
                 'action' => 'UPDATE',
-                'description' => collect($request->all(['label']))->toJson(),
+                'description' => collect($request->all(['ip_address', 'label']))->toJson(),
             ])->user()->associate($request->user())->save();
         } catch (\Throwable $th) {
 
