@@ -28,7 +28,7 @@ Follow these steps to set up the environment:
 
 ## API Testing (Postman)
 
-Import IPAMS.postman_collection.json to Postman
+Import ```IPAMS.postman_collection.json``` to Postman
 
 ## Features
 
