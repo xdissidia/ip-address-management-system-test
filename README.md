@@ -8,22 +8,30 @@ Follow these steps to set up the environment:
 
 1. Clone repository:
     ```
-    https://github.com/xdissidia/ip-address-management-system-test.git
+    git clone https://github.com/xdissidia/ip-address-management-system-test.git
     ```
 2. Navigate to project directory:
     ```
     cd ip-address-management-system-test
     ```
-3. Start the Docker containers:
+3. Navigate to api directory and install packages
     ```
-    docker-compose up -d
+    cd api && composer install && cd ..
     ```
-4. Initilialize ENV and Database:
+4. Navigate to api directory and install packages
     ```
-    docker exec IPAMS-API sh ./storage/config/initENV.sh
-    docker exec IPAMS-API sh ./storage/config/initDB.sh
+    cd frontend && npm install && cd ..
     ```
-5. Access IPAMS at `http://localhost:3000`.
+5. Start the Docker containers:
+    ```
+    docker-compose up --build
+    ```
+6. Configure API and FE:
+    ```
+    docker exec IPAMS-API cp .env.example .env
+    docker exec IPAMS-API php artisan migrate:fresh --seed --force
+    ```
+7. Access IPAMS at `http://localhost:3000`.
     ```
     user: test@test.test
     pass: test
