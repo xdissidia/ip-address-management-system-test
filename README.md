@@ -14,11 +14,11 @@ Follow these steps to set up the environment:
     ```
     cd ip-address-management-system-test
     ```
-3. Start the Docker containers:
+3. Build and start the Docker containers:
     ```
     docker-compose up --build
     ```
-4. Configure API and FE:
+4. Configure API .env and database
     ```
     docker exec IPAMS-API cp .env.example .env
     docker exec IPAMS-API php artisan migrate:fresh --seed --force
